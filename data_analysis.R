@@ -98,4 +98,6 @@ for (i in seq_along(tab3data)) {
 
 dplyr::glimpse(tab3data)
 
-plot(tab3data[-1])
+## Write clean data as csv
+readr::write_csv(tab3data, "data/small-countries.csv")
+
