@@ -93,7 +93,7 @@ colnames(tab3data) <- c(
 for (i in seq_along(tab3data)) {
     if (i == 1)
         next
-    tab3data[[i]] <- suppressWarnings(as.numeric(gsub(",", "", x = tab3data[[i]], fixed = TRUE)))
+    tab3data[[i]] <- as.numeric(gsub("(,|-)", "", x = tab3data[[i]]))
 }
 
 dplyr::glimpse(tab3data)
