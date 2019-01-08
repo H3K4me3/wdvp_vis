@@ -101,3 +101,28 @@ dplyr::glimpse(tab3data)
 ## Write clean data as csv
 readr::write_csv(tab3data, "data/small-countries.csv")
 
+
+## Plot population density
+library(ggplot2)
+d <- tab3data[order(tab3data$`Population Density (per km2)`),]
+d$Country <- forcats::as_factor(d$Country)
+ggplot(d) + geom_point(aes(x = `Country`, y = `Population Density (per km2)`)) + coord_flip()
+
+## PCA analysis
+library(dplyr)
+d <- tab3data
+d$`Education Expenditure` <- NULL
+d$`World Happiness Report Score` <- NULL
+d$`Happy Planet Index` <- NULL
+pca <- prcomp(na.omit(as.matrix(d[-1])))
+summary(pca)
+
+d <- as.data.frame(pca$x)
+ggplot(d, aes(x = PC1, y = PC2, label = rownames(d))) + geom_point()
+
+# plot of observations
+ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
+    geom_hline(yintercept = 0, colour = "gray65") +
+    geom_vline(xintercept = 0, colour = "gray65") +
+    geom_text(colour = "tomato", alpha = 0.8, size = 4) +
+    ggtitle("PCA plot of USA States - Crime Rates")
